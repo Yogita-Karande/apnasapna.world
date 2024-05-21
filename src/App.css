@@ -1,0 +1,106 @@
+.nav-link:hover, .navbar-nav .nav-link.active, .nav-link:focus, .dropdown-item.active, .dropdown-item:active, .navbar-nav .nav-link.active, .navbar-nav .nav-link.show, .dropdown-item:hover {
+  color:  #ff6f00;
+  font-weight: 700;
+  background-color: transparent;
+}
+.nav:hover .submenu{
+  display:block;
+}
+
+.navbar .logo {
+  color:  #ff6f00;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.nav-link {
+  color:#feffff;
+  font-size: 16px; 
+}
+
+.app {
+  background-color: blue;
+}
+
+/* Footer */
+
+.copyright{
+  color:yellow;
+}
+
+/* Home */
+
+.states {
+  position: absolute;
+  bottom: 0;
+}
+
+.receiver{
+  color:yellow
+}
+
+
+/* Table */
+
+.custom-table td{
+   border: none;
+   box-shadow: none;
+   background-color: unset;
+   color:black;
+}
+
+
+.asterik, .text-red {
+  color: red;
+}
+
+.bg-orange {
+  background: #ff6f00;
+  color: #feffff;
+}
+.bg-orange:hover {
+  background: #feffff;
+  color: #ff6f00;
+}
+.btn.bg-orange {
+  background: #ff6f00;
+  color: #feffff;
+  border-radius: 0 !important;
+  border-color: #ff6f00;
+}
+.btn.bg-orange:hover {
+  background: #feffff;
+  color: #ff6f00;
+}
+.text-orange {
+  color:  #ff6f00;
+}
+.sticky-top {
+  background: blue;
+}
+.form-check-input:checked {
+  background-color: #ff6f00;
+}
+
+.bg-transparent {
+  background-color:transparent
+}
+
+.GNTCard {
+  background-color:lightseagreen;
+  border-radius: 15px;
+  border-image-width: auto;
+}
+
+.min-height {
+  min-height: calc(100vh - 200px);
+}
+.custom-table th, .custom-table td {
+  color: #fffffe;
+}
+.custom-table img {
+  max-height: 30px;
+}

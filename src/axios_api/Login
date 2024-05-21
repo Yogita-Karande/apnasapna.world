@@ -1,0 +1,115 @@
+import axios from 'axios';
+import { useState } from 'react';
+import { Button, Card, CardTitle, Col, Container, Form } from 'react-bootstrap';
+import { NavLink, useNavigate } from 'react-router-dom';
+
+function Login() {
+  const navigate = useNavigate();
+
+  const [consumerNo, setConsumerNo] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const [formErrors,setformErrors] = useState({})
+
+  const data = { username: "",  password: "" }
+  const [usedata, setusedata] = useState(data)
+
+  const handleData = (e) => {
+    setusedata({ ...usedata, [e.target.name]: e.target.value })
+}
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setformErrors(validate(usedata));
+    // setisSubmit(true);
+    try {
+      const response = await axios.post('https://jsonplaceholder.typicode.com/users', {
+        consumerNo,
+        password,
+        rememberMe,
+      });
+
+      console.log(response.data);
+
+   
+      if (response.status >= 200 && response.status < 300) {
+        console.log('Login successful');
+
+        // Use history.push to redirect to the dashboard page
+       navigate('/dashboard');
+      } else {
+        console.error('Login failed. Server response:', response.data);
+      }
+    } catch (error) {
+      console.error('Login failed', error);
+    }
+  };
+
+  
+
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+    if (!values.consumernumber) {
+      errors.consumernumber = "Consumer Number is required";
+    }
+
+    if (!values.password) {
+      errors.password = "Password is required";
+    }
+  
+    return errors;
+  };
+
+
+
+  return (
+    <Container className="">
+      <Col className='receiver text-center mt-5 text-uppercase'><h2>Login</h2></Col>
+      <Col className="mt-5">
+        <Card className="col-lg-5 rounded mx-auto">
+          <Card.Body>
+            <CardTitle className="text-muted text-center  mb-4">Login</CardTitle>
+            <Form>
+              <Form.Group className="mb-3 me-3 ms-3" controlId="exampleForm.ControlInput1">
+                <Form.Control
+                  type="consumerno"
+                  placeholder="Consumer Number"
+                  name = "consumernumber"
+                  value={usedata.consumernumber}
+                  onChange={handleData}
+                />
+                <p className='text-danger'>{formErrors.consumernumber}</p>
+              </Form.Group>
+              
+            </Form>
+
+            <Form>
+              <Form.Group className="mb-3 me-3 ms-3" controlId="exampleForm.ControlInput2">
+                <Form.Control
+                  type="Password"
+                  placeholder="Password"
+                  name = "password"
+                  value={usedata.password}
+                  onChange={handleData}
+                />
+                <p className='text-danger'>{formErrors.password}</p>
+              </Form.Group>
+              
+            </Form>
+            <Form.Check className='ms-3 mb-2' label="Remember me" onChange={() => setRememberMe(!rememberMe)} />
+
+            <Col lg={12} className="text-center">
+              <NavLink to=""><Button className="" onClick={handleLogin}>Sign In</Button></NavLink>
+              <NavLink to="/register"><Button className="ms-3">Sign Up</Button></NavLink>
+            </Col>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Container>
+  );
+}
+
+export default Login;

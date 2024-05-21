@@ -1,0 +1,125 @@
+import { useRef } from 'react';
+import { Button, Col, Container, Form, Row, Table } from 'react-bootstrap';
+import { useDownloadExcel } from 'react-export-table-to-excel';
+import { NavLink } from 'react-router-dom';
+
+
+function TransactionHistory() {
+
+  // Export Excel Functionality
+
+  const tableref = useRef(null);
+
+  // Export to PDF Functionality
+
+  // const { toPDF, targetRef } = usePDF({filename: 'page.pdf'});
+
+  const pdfRef = useRef(null);
+
+  const pdfGenerator = async () => {
+    const content = pdfRef.current;
+
+    // Use await to wait for html2canvas to finish before proceeding
+    const canvas = await html2canvas(content, { scale: 1 });
+
+    // Create a new JsPDF instance with the correct page size
+    const doc = new JsPDF('p', 'pt', [850, 1000]);
+
+    // Add the image of the captured content to the PDF
+    const imgData = canvas.toDataURL('image/png');
+    doc.addImage(imgData, 'PNG', 40, 40, canvas.width - 100, canvas.height - 200);
+
+    // Save the PDF
+    doc.save('newFile.pdf');
+  };
+
+  // Export to Excel Functionality
+
+  const { onDownload } = useDownloadExcel({
+    currentTableRef: tableref.current,
+    filename: 'Table',
+    sheet: 'Users'
+  });
+
+
+
+
+  // console.log("Hello")
+
+
+  return (
+    <Container>
+      <Col className='receiver text-center mt-5 text-uppercase'>
+        <h2>Transaction History</h2>
+      </Col>
+
+      <Row className='offset-lg-1 col-lg-10 mt-5'>
+        <Col>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Control type="date" />
+            </Form.Group>
+          </Form>
+        </Col>
+
+        <Col>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Control type="date" />
+            </Form.Group>
+          </Form>
+        </Col>
+
+        <Col>
+          <Button>Filter</Button>
+        </Col>
+
+        {/* <Col id='pdf' className='text-end'>
+          <Button onClick={pdfGenerator}>Export to PDF</Button>
+        </Col> */}
+
+         <Col id='pdf' className='text-end'>
+          <Button onClick={() => toPDF()}>Export to PDF</Button>
+        </Col>
+
+        <Col className=''>
+          <NavLink ><Button id='to_excel' onClick={onDownload}>Export to Excel</Button></NavLink>
+        </Col>
+      </Row>
+
+      <Col ref={targetRef} className='offset-lg-2 col-lg-8'>
+        <Table striped bordered hover variant="dark" className='mt-4 text-end' ref={tableref}>
+          <thead >
+            <tr>
+              <th className='sorting'>#</th>
+              <th>Created at</th>
+              <th>Invoice Number</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody >
+            <tr>
+              <td>1</td>
+              <td>Dec 30-2023-12:44 PM </td>
+              <td>AL/53752/23-24</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Dec 30-2023-01:14 PM </td>
+              <td>AL/53779/23-24</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </Table>
+      </Col>
+
+
+      <Col className='text-center mt-5'>
+        <Button>View</Button>
+      </Col>
+    </Container>
+  );
+}
+
+export default TransactionHistory;
